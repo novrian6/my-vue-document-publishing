@@ -20,15 +20,15 @@ export const useAuthStore = defineStore('auth', {
       this.error = ''
 
       try {
-        const res = await axios.post(
-          'http://localhost:8080/login',
-          { username, password },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
+        const params = new URLSearchParams()
+        params.append('username', username)
+        params.append('password', password)
+
+        const res = await axios.post('http://localhost:8080/login', params, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-        )
+        })
 
         this.token = res.data.token
         this.user = res.data.user || { name: 'User' } // Adjust based on actual API response
